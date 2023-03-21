@@ -51,7 +51,7 @@ instauserRouter.post("/login",async(req,res)=>{
     try{
      bcrypt.compare(password, hash_password, function(err, result) {
           if(result){
-               const token= jwt.sign({ "userId":userId,"name":name,"avatar":avatar }, 'shh');
+               const token= jwt.sign({ "userId":_id}, 'shh');
                if(token){
                    res.status(200).send({"mess":"longin succefull",token:token,user:{email,name,userName,_id}})
                }else{
