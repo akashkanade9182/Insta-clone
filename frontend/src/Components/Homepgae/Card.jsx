@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import "./Card.css"
 import {
   Modal,
@@ -13,8 +13,10 @@ import {
 } from '@chakra-ui/react'
 
 
-const Card = () => {
+const Card = ({ body, likes, photo }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [postuser, setPostuser] = useState({});
+
   var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
   return (
     <div className="card">
@@ -23,7 +25,7 @@ const Card = () => {
         <div className="card-pic">
           <img
 
-            src={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"}
+            src={picLink}
             alt=""
           />
         </div>
@@ -33,7 +35,7 @@ const Card = () => {
       </div>
       {/* card image */}
       <div className="card-image">
-        <img src={"https://media.istockphoto.com/id/1368242749/photo/the-knob-in-falmouth-on-cape-cod.jpg?s=1024x1024&w=is&k=20&c=UCjAxYj8IOlszn16o74KyExCIklg9GWAgw_xApaf0sA="} alt="" />
+        <img src={photo} alt="" />
       </div>
       {/* card content */}
       <div className="card-content">
@@ -62,7 +64,7 @@ const Card = () => {
         </div>
         <div className='second-feature'>
           <span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookmarks" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-bookmarks" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path d="M13 7a2 2 0 0 1 2 2v12l-5 -3l-5 3v-12a2 2 0 0 1 2 -2h6z" />
               <path d="M9.265 4a2 2 0 0 1 1.735 -1h6a2 2 0 0 1 2 2v12l-1 -.6" />
@@ -81,13 +83,13 @@ const Card = () => {
 
       {/*view comments*/}
       <Box textAlign="left" p="0 5px">
-        <span style={{textAlign:"left",cursor:"pointer"}} onClick={onOpen}>View all commments</span>
+        <span style={{ textAlign: "left", cursor: "pointer" }} onClick={onOpen}>View all commments</span>
         <Modal isOpen={isOpen} size={"full"} onClose={onClose}>
           <ModalOverlay />
           <ModalContent >
             <ModalHeader>Modal Title</ModalHeader>
             <ModalCloseButton />
-            <ModalBody display={"flex"} flexDirection={["column","column","row","row"]}>
+            <ModalBody display={"flex"} flexDirection={["column", "column", "row", "row"]}>
               <Box>
                 <img
 
@@ -96,17 +98,17 @@ const Card = () => {
                 />
               </Box>
               <div className="card-header">
-        <div className="card-pic">
-          <img
+                <div className="card-pic">
+                  <img
 
-            src={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"}
-            alt=""
-          />
-        </div>
-        <h5>
-          akash kanade
-        </h5>
-      </div>
+                    src={"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"}
+                    alt=""
+                  />
+                </div>
+                <h5>
+                  akash kanade
+                </h5>
+              </div>
 
             </ModalBody>
 
