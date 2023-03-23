@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types
 
 const userSchema=mongoose.Schema({
      name: {
@@ -17,11 +18,11 @@ const userSchema=mongoose.Schema({
           type: String,
           required: true
       },
-     //  Photo: {
-     //      type: String,
-     //  },
-     //  followers: [{ type: ObjectId, ref: "USER" }],
-     //  following: [{ type: ObjectId, ref: "USER" }]
+      Photo: {
+          type: String,
+      },
+      followers: [{ type: ObjectId, ref: "instausers" }],
+      following: [{ type: ObjectId, ref: "instausers" }]
  })
 
  const InstaUsermodel=mongoose.model("instausers",userSchema);
