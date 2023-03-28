@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 // const getLogin=(payload)=>(dispatch)=>{
 //      dispatch({type:types.LOGIN_REQUEST})
 
-//     return ( axios.post("http://localhost:7000/instauser/login",payload).then((r)=>{
+//     return ( axios.post("https://rich-erin-sturgeon-suit.cyclic.app/instauser/login",payload).then((r)=>{
 //      if(r.data.token){
 //        dispatch({type:types.LOGIN_SUCCESS,payload:r.data})
 //        alert("Signin successfull")
@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router-dom';
 const getLogin=(payload,toast,navigate,location)=>(dispatch)=>{
   dispatch({type:types.LOGIN_REQUEST})
 
- return axios.post("http://localhost:7000/instauser/login",payload).then((r)=>{
+ return axios.post("https://rich-erin-sturgeon-suit.cyclic.app/instauser/login",payload).then((r)=>{
   if(r.data.token){
     dispatch({type:types.LOGIN_SUCCESS,payload:r.data})
     toast({
@@ -64,4 +64,52 @@ const getLogin=(payload,toast,navigate,location)=>(dispatch)=>{
  })
 }
 
-export {getLogin};
+const getSingleUser=(token)=>(dispatch)=>{
+  dispatch({type:types.GET_PROFILE_REQUEST})
+  const options = {
+    url: 'https://rich-erin-sturgeon-suit.cyclic.app/instauser/getsingleuser',
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': `bearer ${token}`
+    },
+  
+  };
+
+
+
+  return axios(options).then((r)=>{
+    dispatch({type:types.GET_PROFILE_SUCCESS,payload:r.data})
+    console.log(r.data)
+   }).catch((e)=>{
+    console.log(e)
+    dispatch({type:types.GET_PROFILE_FAILURE})
+   })
+}
+
+/******update profil picture**************** */
+const updateProfilepic=(Id,payload)=>(dispatch)=>{
+  dispatch({type:types.UPDATE_PROFILE_REQUEST})
+  return axios.patch(`https://rich-erin-sturgeon-suit.cyclic.app/instauser/updateprofile/${Id}`,payload).then((r)=>{
+    dispatch({type:types.UPDATE_PROFILE_SUCCESS,payload:r.data})
+    console.log(r.data)
+    console.log("update successful")
+   }).catch((e)=>{
+    console.log(e)
+    dispatch({type:types.UPDATE_PROFILE_FAILURE})
+   })
+
+
+  }
+
+  const handleLogout=(dispatch)=>{
+    dispatch({type:types.LOGOUT_SUCCESS})
+    }
+
+ 
+
+
+  
+
+export {getLogin,getSingleUser,updateProfilepic,handleLogout};

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import "./Card.css"
+import axios from "axios"
 import {
   Modal,
   ModalOverlay,
@@ -9,29 +10,111 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button, Box
+  Button, Box, Avatar,useToast
 } from '@chakra-ui/react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllPost, handleComment, handleLikes } from '../../Redux/AppReducer/action'
+import { getSingleUser } from '../../Redux/AuthReducer/action'
+import Profilemodel from './Profilemodel'
+import Commentmodel from './Commentmodel'
 
+const getUser = (id) => {
+  return axios.get(`https://rich-erin-sturgeon-suit.cyclic.app/instauser/getusercard/${id}`)
+}
 
-const Card = ({ body, likes, photo }) => {
+const Card = ({ _id, setCount, body,comments, likes, photo, postedBy, handleunfollow, handlefollow }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [postuser, setPostuser] = useState({});
-
+  const [comment,setComment]=useState("")
+  const [profile, setProfile] = useState({})
+  const data = useSelector(store => store.AuthReducer.data)
+  const dispatch = useDispatch();
+  const toast = useToast()
+  const [status, setStatus] = useState(data.following.includes(profile._id) ? false : true)
+  const token = useSelector(store => store.AuthReducer.token)
   var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+
+
+  const handleFollowUpdate = () => {
+    handlefollow({ followId: profile._id })
+      .then((response) => {
+        console.log("follow update successful")
+        dispatch(getSingleUser(token))
+
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.log("error in follwing")
+        console.log(error);
+      });
+    console.log("trigered follow")
+  }
+
+  const handleUnfollowUpdate = () => {
+    handleunfollow({ followId: profile._id })
+      .then((response) => {
+        console.log("unfollow update successful")
+        dispatch(getSingleUser(token))
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.log("error in unfollwing")
+        console.log(error);
+      });
+
+    console.log("trigered unfollow")
+  }
+
+
+  const handleLikesEvent = () => {
+    dispatch(handleLikes(_id, token)).then(() => {
+      dispatch(getAllPost())
+    }).catch((e) => {
+      console.log(e)
+    })
+  }
+
+  const handleCommentEvent=()=>{
+    dispatch(handleComment(_id,token,comment)).then(() => {
+      toast({
+        position: 'top-center',
+        render: () => (
+          <div style={{backgroundColor:" #272150",borderRadius:"9px" ,display:"flex",justifyContent:"space-around",alignItems:"center",width:"400px",padding:"10px 10px" ,height:"50px",color:"white"}}>
+            commented successfully
+          </div>
+        ),
+      })
+    }).catch((e) => {
+      console.log(e)
+    })
+console.log(comment,_id,token)
+  }
+
+
+  useEffect(() => {
+    getUser(postedBy).then((r) => {
+
+      setProfile(r.data)
+    })
+  }, [postedBy])
+
   return (
-    <div className="card">
+    <Box w={["95%","500px","500px","500px"]} className="card">
       {/* card header */}
       <div className="card-header">
-        <div className="card-pic">
-          <img
-
-            src={picLink}
-            alt=""
-          />
-        </div>
+        {/* <div className="card-pic"> */}
+        <Profilemodel profile={profile} />
+        {/* </div> */}
         <h5>
-          akash kanade
+          {
+            profile && profile.name
+          }
         </h5>
+        {
+          data.following.includes(profile._id) ? <h2 className='followtext' onClick={handleUnfollowUpdate} >unfollow</h2> : <h2 className='followtext' onClick={handleFollowUpdate}>follow</h2>
+        }
       </div>
       {/* card image */}
       <div className="card-image">
@@ -40,12 +123,19 @@ const Card = ({ body, likes, photo }) => {
       {/* card content */}
       <div className="card-content">
         <div className='first-feature'>
-          <span >
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="28" height="28" viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-            </svg>
+          <span style={{ cursor: "pointer", display: "flex", alignItems: "center" }} onClick={handleLikesEvent} >
+            {
+              likes.includes(data._id) ? <svg style={{ color: "red" }} xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" fill="red"></path>
+              </svg> : <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="28" height="28" viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+              </svg>
+
+            }
+
           </span>
+
           <span>
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-circle-2" width="28" height="28" viewBox="0 0 24 24" stroke-width="1" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -76,14 +166,15 @@ const Card = ({ body, likes, photo }) => {
       {/*likes*/}
       <div style={{ textAlign: "left", padding: "0 5px" }}>
         <h5>
-          101 likes
+          {likes.length} likes
         </h5>
 
       </div>
 
       {/*view comments*/}
       <Box textAlign="left" p="0 5px">
-        <span style={{ textAlign: "left", cursor: "pointer" }} onClick={onOpen}>View all commments</span>
+        <Commentmodel Id={_id} comments={comments}/>
+        {/* <span style={{ textAlign: "left", cursor: "pointer" }} onClick={onOpen}>View all commments</span>
         <Modal isOpen={isOpen} size={"full"} onClose={onClose}>
           <ModalOverlay />
           <ModalContent >
@@ -119,7 +210,7 @@ const Card = ({ body, likes, photo }) => {
               <Button variant='ghost'>Secondary Action</Button>
             </ModalFooter>
           </ModalContent>
-        </Modal>
+        </Modal> */}
       </Box>
       {/* add Comment */}
       <div className="add-comment">
@@ -127,18 +218,19 @@ const Card = ({ body, likes, photo }) => {
         <input
           type="text"
           placeholder="Add a comment"
-
+          value={comment}
+        onChange={(e)=>setComment(e.target.value)}
 
         />
         <button
           className="comment"
-
+            onClick={handleCommentEvent}
         >
           Post
         </button>
       </div>
 
-    </div>
+    </Box>
   )
 }
 

@@ -4,8 +4,7 @@ import "../Styles/CreatePost.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { useToast } from '@chakra-ui/react'
-
+import { Button, useToast } from '@chakra-ui/react'
 
 
 const postCloude = (payload) => {
@@ -14,7 +13,7 @@ const postCloude = (payload) => {
 
 const postMongo = (payload, token) => {
   const options = {
-    url: 'http://localhost:7000/instapost/createpost',
+    url: 'https://rich-erin-sturgeon-suit.cyclic.app/instapost/createpost',
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -107,7 +106,7 @@ const CreatePost = () => {
       {/* //header */}
       <div className="post-header">
         <h4 style={{ margin: "3px auto" }}>Create New Post</h4>
-        <button id="post-btn" onClick={postDetails} >Share</button>
+        <Button className="post-btn"  bgColor="#339ce3" color="white" onClick={postDetails} >Share</Button>
       </div>
       {/* image preview */}
       <div className="main-div">

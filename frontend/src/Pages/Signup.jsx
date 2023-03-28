@@ -5,7 +5,7 @@ import axios from "axios"
 import { useToast } from '@chakra-ui/react'
 
 const postData=(payload)=>{
-     return axios.post("http://localhost:7000/instauser/singup",payload)
+     return axios.post("https://rich-erin-sturgeon-suit.cyclic.app/instauser/singup",payload)
 }
 
 const Signup = () => {
@@ -38,7 +38,7 @@ const handleClick=()=>{
           console.log(r.data)
      }).catch((e)=>{
           toast({
-               title: `${e.response.data}`,
+               title: `${e}`,
                containerStyle: {
                  borderRadius:"10px",
                },
@@ -60,15 +60,16 @@ const handleClick=()=>{
             Sign up to see photos and videos <br /> from your friends
           </p>
           <div>
-            <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+            <input type="email" style={{padding:"0 10px"}}  name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
           </div>
           <div>
-            <input type="text" name="name" id="name" placeholder="Full Name" value={name} onChange={((e) => { setName(e.target.value) })} />
+            <input type="text"  style={{marginTop:"15px",padding:"0 10px"}} name="name" id="name" placeholder="Full Name" value={name} onChange={((e) => { setName(e.target.value) })} />
           </div>
           <div>
             <input
               type="text"
               name="username"
+              style={{marginTop:"15px",padding:"0 10px"}}
               id="username"
               placeholder="Username"
               value={userName}
@@ -79,6 +80,7 @@ const handleClick=()=>{
             <input
               type="password"
               name="password"
+              style={{marginTop:"15px",padding:"0 10px"}}
               id="password"
               placeholder="Password"
               value={password}

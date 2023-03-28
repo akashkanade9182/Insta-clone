@@ -9,15 +9,15 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button, Box
+  Button, Box,Avatar
 } from '@chakra-ui/react'
-import { uploadProfilepic } from '../Redux/AppReducer/action'
+import { uploadProfilepic,getOwnPost } from '../Redux/AppReducer/action'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { getSingleUser,updateProfilepic } from '../Redux/AuthReducer/action'
+import FollowerList from '../Components/Profile/FollowerList'
 
 
 const Profile = () => {
-  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
   const [pic, setPic] = useState([]);
   const [show, setShow] = useState(false)
   const [posts, setPosts] = useState([]);
@@ -28,7 +28,14 @@ const Profile = () => {
   const [url, setUrl] = useState()
   const isLoading = useSelector(store => store.AppReducer.isLoading)
   const isError = useSelector(store => store.AppReducer.isError)
+  const data=useSelector(store => store.AppReducer.data)
+  const token=useSelector(store => store.AuthReducer.token)
+  const profile=useSelector(store=>store.AuthReducer.data);
   const dispatch = useDispatch()
+  
+// let picLink = profile.photo==="no photo"? "https://cdn-icons-png.flaticon.com/128/3177/3177440.png":profile.photo
+let picLink = profile.photo?profile.photo: "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+
 
   const loadfile = (event) => {
     var output = document.getElementById("profileimage");
@@ -44,31 +51,49 @@ const Profile = () => {
     data.append("upload_preset", "insta-clone")
     data.append("cloud_name", "instacloude1995")
     dispatch(uploadProfilepic(data, setUrl)).then(()=>{
+    
       console.log("file upload successfull")
     }).catch(e=>console.log(e))
   }
+
+  const handleUpdate=()=>{
+    console.log(url)
+    dispatch(updateProfilepic(profile._id,{photo:url})).then(()=>{
+      onClose()
+    })
+  }
+useEffect(()=>{
+dispatch(getOwnPost(token))
+dispatch(getSingleUser(token))
+},[token,])
+useEffect(()=>{
+  dispatch(getSingleUser(token))
+  },[token])
+
+
 
 
   return (
     <div className="profile">
       {/* Profile frame */}
       <div className="profile-frame">
-        <img
+        {/* <img
 
-          style={{ cursor: "pointer" }} onClick={onOpen}
+          style={{ cursor: "pointer",maxWidth:"160px",objectFit:"contain",borderRadius:"50%" }} onClick={onOpen}
           src={picLink}
           alt=""
-        />
+        /> */}
+        <Avatar size='2xl' cursor= "pointer" onClick={onOpen} name={profile.name} src={picLink} />
         <Modal isOpen={isOpen} size={'sm'} onClose={onClose}>
           <ModalOverlay />
           <ModalContent >
             <ModalHeader>Select Profle picture</ModalHeader>
             <ModalCloseButton />
             <ModalBody display={"flex"} flexDirection={["column", "column", "column", "column"]}>
-              <Box display={"flex"} flexDirection={"column"} justifyContent >
-               { isLoading? <img src="https://i.stack.imgur.com/kOnzy.gif" alt="" />:<img
+              <Box display={"flex"}  flexDirection={"column"} justifyContent >
+               { isLoading? <img  style={{ width:"150px",height:"150px",margin:"auto"}} src="https://i.stack.imgur.com/kOnzy.gif" alt="" />:<img
                   id='profileimage'
-                  style={{ cursor: "pointer", }} onClick={onOpen}
+                  style={{ cursor: "pointer"}} onClick={onOpen}
                   src={profilepic?URL.createObjectURL(profilepic):picLink}
                   alt=""
                 />}
@@ -93,18 +118,20 @@ const Profile = () => {
               <Button colorScheme='blue' mr={3} onClick={handleUpload}>
                 upload
               </Button>
-              <Button variant='ghost'>Update</Button>
+              <Button variant='ghost' onClick={handleUpdate}>Update</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
       </div>
       {/* profile-data */}
       <div className="pofile-data">
-        <h1>{"akash kanade"}</h1>
+        <h1>{profile.name&&profile.name}</h1>
         <div className="profile-info" style={{ display: "flex", width: "90%", justifyContent: "space-around", margin: "auto" }}>
-          <p>{"0"} posts</p>
-          <p>{"0"} followers</p>
-          <p>{"0"} following</p>
+          <p>{data?data.length:0} posts</p>
+          {/* <p>{profile.following?profile.following.length:0} following</p> */}
+          <FollowerList profile={profile} textdata="followers" />
+          <FollowerList profile={profile} textdata="following" />
+
         </div>
       </div>
       <hr
@@ -117,23 +144,11 @@ const Profile = () => {
       />
       {/* Gallery */}
       <div className="gallery">
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-        <img src="https://images.unsplash.com/photo-1629111481401-2850b49a64e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" alt="photo" />
-
+       {
+        data && data.map((ele)=>(
+          <img src={ele.photo} alt="err" />
+        ))
+       }
       </div>
     </div>
   )

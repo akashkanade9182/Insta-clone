@@ -9,7 +9,7 @@
  }
  
  .form{
-     background-color: #fff;
+     background-color: #ffffff4d;
      padding: 30px;
      border: 1px solid rgb(129, 121, 121);
      border-radius: 1px;
@@ -23,7 +23,7 @@
  }
  
  .loginPara{
-     color: rgba(var(--f52,142,142,142),1);
+     color: white;
      font-size: 17px;
      font-weight: 600;
      line-height: 20px;
@@ -57,7 +57,7 @@
  }
  
  .form2{
-     background-color: #fff;
+     background-color:#ffffff4d;
      padding: 30px;
      margin-top: 5px;
      border: 1px solid rgb(129, 121, 121);

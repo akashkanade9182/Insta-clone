@@ -30,6 +30,7 @@ const reducer = (state = initialState, action) => {
         data:[],
         isError:true
       }
+   
     case types.ADD_PROFILEPIC_REQUEST:
         return {
         ...state,
@@ -48,8 +49,24 @@ const reducer = (state = initialState, action) => {
             data:[],
             isError:true
           }
-
-
+        case types.PATCH_POST_REQUEST:
+          return {
+            ...state,
+            isLoading:true
+           }
+           case types.PATCH_POST_SUCCESS:
+            return {
+              ...state,
+              isLoading:false,
+             
+              isError:false
+            }
+            case types.PATCH_POST_FAILURE:
+              return {
+                isLoading:false,
+               
+                isError:true
+              }
 
 
 

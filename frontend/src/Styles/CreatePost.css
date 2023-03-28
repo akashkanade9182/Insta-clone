@@ -16,11 +16,14 @@
  }
  .post-header{
      display: flex;
+     padding:10px 10px
  }
  
- #post-btn{
+ .post-btn{
      border: none;
-     color: #339ce3;
+   background-color: #339ce3;
+     color:white;
+     border-radius: 8px;
      background:none;
      font-weight: bolder;
      cursor: pointer;

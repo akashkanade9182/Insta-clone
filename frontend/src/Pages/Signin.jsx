@@ -36,10 +36,11 @@ const handleClick=()=>{
        <div className="loginForm">
          <img className="signUpLogo" src={"logo.png"} alt="err" />
          <div>
-           <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+           <input type="email"  style={{padding:"0 10px"}} name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
          </div>
          <div>
            <input
+           style={{marginTop:"15px",padding:"0 10px"}}
              type="password"
              name="password"
              id="password"

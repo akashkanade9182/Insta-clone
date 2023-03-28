@@ -9,6 +9,7 @@
  .card-header{
      display: flex;
      padding:5px 5px;
+     align-items: center;
  }
  .card-header > h5{
      margin: 0;
@@ -41,7 +42,7 @@
  .first-feature{
      display: flex;
      justify-content: space-around;
-     width: 15%;
+     width: auto;
  }
  .add-comment{
      display: flex;
@@ -61,6 +62,14 @@
      ;font-weight: bolder;
      cursor: pointer;
      color: #339ce3;
+ }
+ .followtext{
+    color:#4287f5;
+    cursor: pointer;
+    font-weight: bold;
+ }
+ .followtext:hover{
+transform: scale(1.1)
  }
  
  

@@ -1,0 +1,7 @@
+.scrollBox{
+     overflow: scroll;
+     scroll-behavior: smooth;
+}
+.scrollBox::-webkit-scrollbar{
+     display:none;
+ }
