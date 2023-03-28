@@ -10,10 +10,12 @@ const Authentication = (req,res,next) => {
           return res.status(401).json({ error: "You must have logged in 1" })
       }
      const token=req.headers?.authorization?.split(" ")[1]
+     
 
      if(token){
          let decoded = jwt.verify(token, 'shh');
           if(decoded){
+            
               const userId = decoded.userId
               req.body.user = userId;
             

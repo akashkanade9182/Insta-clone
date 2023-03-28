@@ -18,9 +18,11 @@ const userSchema=mongoose.Schema({
           type: String,
           required: true
       },
-      Photo: {
+      photo: {
           type: String,
+          
       },
+    
       followers: [{ type: ObjectId, ref: "instausers" }],
       following: [{ type: ObjectId, ref: "instausers" }]
  })
