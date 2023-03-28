@@ -53,7 +53,7 @@ it is a clone of Instagram social media app, here you can create photogallary, p
 # 6)View Commnets
 ![App Screenshot](https://iili.io/HNrzEvf.md.png)
 
-# 7)Responsive for smaml screen
+# 7)Responsive for small screen
 ![App Screenshot](https://iili.io/HNrIzP9.md.png)
 
 
