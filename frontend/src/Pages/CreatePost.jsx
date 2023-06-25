@@ -51,6 +51,31 @@ const CreatePost = () => {
     data.append("cloud_name", "instacloude1995")
     postCloude(data).then((r) => {
       setUrl(r.data.url)
+      if (r.data.url) {
+ 
+        postMongo({body,pic:url},token).then((r)=>{
+         toast({
+           position: 'top-center',
+           render: () => (
+             <div style={{backgroundColor:" #272150",borderRadius:"9px" ,display:"flex",justifyContent:"space-around",alignItems:"center",width:"400px",padding:"10px 10px" ,height:"50px",color:"white"}}>
+            new Post added successfully
+             </div>
+           ),
+         })
+         navigate("/")
+         console.log("mongoupload success",r.data)
+        }).catch((e)=>{
+         toast({
+           position: 'top-center',
+           render: () => (
+             <div style={{backgroundColor:" red" ,color:"white"}}>
+              file upload failed
+             </div>
+           ),
+         })
+         console.log("mongo upload failer",e)
+        })
+       }
       console.log(r.data.url)
     }).catch((e) => {
       console.log(e)
@@ -73,31 +98,31 @@ const CreatePost = () => {
   // }
 
   useEffect(() => {
-    if (url) {
+    // if (url) {
  
-     postMongo({body,pic:url},token).then((r)=>{
-      toast({
-        position: 'top-center',
-        render: () => (
-          <div style={{backgroundColor:" #272150",borderRadius:"9px" ,display:"flex",justifyContent:"space-around",alignItems:"center",width:"400px",padding:"10px 10px" ,height:"50px",color:"white"}}>
-         new Post added successfully
-          </div>
-        ),
-      })
-      navigate("/")
-      console.log("mongoupload success",r.data)
-     }).catch((e)=>{
-      toast({
-        position: 'top-center',
-        render: () => (
-          <div style={{backgroundColor:" red" ,color:"white"}}>
-           file upload failed
-          </div>
-        ),
-      })
-      console.log("mongo upload failer",e)
-     })
-    }
+    //  postMongo({body,pic:url},token).then((r)=>{
+    //   toast({
+    //     position: 'top-center',
+    //     render: () => (
+    //       <div style={{backgroundColor:" #272150",borderRadius:"9px" ,display:"flex",justifyContent:"space-around",alignItems:"center",width:"400px",padding:"10px 10px" ,height:"50px",color:"white"}}>
+    //      new Post added successfully
+    //       </div>
+    //     ),
+    //   })
+    //   navigate("/")
+    //   console.log("mongoupload success",r.data)
+    //  }).catch((e)=>{
+    //   toast({
+    //     position: 'top-center',
+    //     render: () => (
+    //       <div style={{backgroundColor:" red" ,color:"white"}}>
+    //        file upload failed
+    //       </div>
+    //     ),
+    //   })
+    //   console.log("mongo upload failer",e)
+    //  })
+    // }
 
 
   }, [url])

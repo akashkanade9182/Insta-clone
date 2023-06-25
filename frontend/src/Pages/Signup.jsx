@@ -28,6 +28,7 @@ const Signup = () => {
 const handleClick=()=>{
      let data={name,email,password,userName};
      postData(data).then((r)=>{
+      navigate("/")
           toast({
                title: `${r.data}`,
                containerStyle: {
@@ -38,11 +39,12 @@ const handleClick=()=>{
           console.log(r.data)
      }).catch((e)=>{
           toast({
-               title: `${e}`,
+               title: `${e.response.data}`,
                containerStyle: {
                  borderRadius:"10px",
                },
              })
+             console.log(e.response.data)
           
      })
 
