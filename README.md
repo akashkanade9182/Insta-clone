@@ -4,7 +4,7 @@
 it is a clone of Instagram social media app, here you can create photogallary, post,profile,follow to friend ,likes or dislikes to post
 
 # Demo link :  https://instaclonetrial.netlify.app
-https://insta-clone-delta-blond.vercel.app/signin
+https://insta-clone-git-main-akashkanade9182.vercel.app/
 
 # Individual Project
 
