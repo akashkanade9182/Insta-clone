@@ -43,6 +43,8 @@ const Navbar = () => {
      const dispatch=useDispatch()
 
 const handleClick=()=>{
+     sessionStorage.removeItem('token')
+     sessionStorage.removeItem('user')
      dispatch(handleLogout)
 }
      return (

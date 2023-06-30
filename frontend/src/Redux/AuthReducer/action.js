@@ -31,6 +31,9 @@ const getLogin=(payload,toast,navigate,location)=>(dispatch)=>{
  return axios.post("https://rich-erin-sturgeon-suit.cyclic.app/instauser/login",payload).then((r)=>{
   if(r.data.token){
     dispatch({type:types.LOGIN_SUCCESS,payload:r.data})
+    sessionStorage.setItem('token', `${r.data.token}`);
+    sessionStorage.setItem('user', JSON.stringify(r.data.user));
+
     toast({
      position: 'top-center',
      render: () => (
@@ -106,10 +109,14 @@ const updateProfilepic=(Id,payload)=>(dispatch)=>{
   const handleLogout=(dispatch)=>{
     dispatch({type:types.LOGOUT_SUCCESS})
     }
+    
+  const sessionLogin=(data)=>(dispatch)=>{
+    dispatch({type:types.LOGIN_SUCCESS,payload:data})
 
+  }
  
 
 
   
 
-export {getLogin,getSingleUser,updateProfilepic,handleLogout};
+export {getLogin,sessionLogin,getSingleUser,updateProfilepic,handleLogout};
